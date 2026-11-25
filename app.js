@@ -9,7 +9,7 @@ const ALL = [
   {dev:'सीता राम', mal:'സീതാ രാം', eng:'Sita Ram', audio:'audio/sita-ram.mp3'},
   {dev:'श्री राम जय राम जय जय राम', mal:'ശ്രീ രാം ജയ് രാം ജയ് ജയ് രാം', eng:'Shri Ram Jai Ram Jai Jai Ram', audio:'audio/shri-ram-jai-ram.mp3'}
 ];
-const MANTRAS = ALL.slice(0, 2);   // demo set; ALL.slice(0, 4) brings back Sita Ram + Shri Ram
+const MANTRAS = ALL;
 if (st.mantra >= MANTRAS.length) st.mantra = 0;
 const cur = () => MANTRAS[st.mantra] || MANTRAS[0];
 
