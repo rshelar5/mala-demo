@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mala</title>
+<meta name="theme-color" content="#0d0a07">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <button id="mantra" aria-label="mantra">ॐ नमः शिवाय</button>
+  <div id="dots"></div>
+
+  <div id="scripts">
+    <button data-s="dev">अ</button>
+    <button data-s="mal">ഓ</button>
+    <button data-s="eng">A</button>
+  </div>
+
+  <div id="stage">
+  <svg id="sign" viewBox="0 0 400 300" aria-label="counter">
+    <defs>
+      <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="7" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <linearGradient id="g" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#ff8c2b"/><stop offset=".5" stop-color="#ffd79a"/><stop offset="1" stop-color="#f5c76a"/>
+      </linearGradient>
+    </defs>
+    <path id="p" d="M200,150 C200,26 380,26 380,150 C380,274 200,274 200,150 C200,26 20,26 20,150 C20,274 200,274 200,150 Z"
+          fill="none" stroke="url(#g)" stroke-width="8" stroke-linecap="round"/>
+    <text id="count" class="big" x="110" y="152">0</text>
+    <text id="goal" class="small" x="290" y="152">108</text>
+    <circle id="dot" cx="200" cy="150" r="11" fill="#fff6e0" filter="url(#glow)"/>
+  </svg>
+  </div>
+
+  <div id="controls">
+    <button id="mode" class="icon" aria-label="mode">
+      <svg viewBox="0 0 24 24" class="a"><path d="M4 12a8 8 0 1 0 16 0 8 8 0 1 0-16 0" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="4" r="2.6" fill="currentColor"/></svg>
+      <svg viewBox="0 0 24 24" class="b"><circle cx="5" cy="12" r="2.6" fill="currentColor"/><circle cx="12" cy="12" r="2.6" fill="currentColor"/><circle cx="19" cy="12" r="2.6" fill="currentColor"/></svg>
+    </button>
+    <button id="play" class="icon" aria-label="play">
+      <svg viewBox="0 0 24 24" class="a"><path d="M8 5l11 7-11 7z" fill="currentColor"/></svg>
+      <svg viewBox="0 0 24 24" class="b"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg>
+    </button>
+    <button id="mute" class="icon" aria-label="sound" hidden>
+      <svg viewBox="0 0 24 24" class="a"><path d="M4 9h3l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+      <svg viewBox="0 0 24 24" class="b"><path d="M4 9h3l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16 9l5 6M21 9l-5 6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+    </button>
+    <input id="speed" type="range" min="2" max="8" step="0.5" aria-label="seconds per chant">
+  </div>
+
+  <button id="bead" aria-label="mala done" hidden>
+    <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
+  <footer>
+    <div class="stats">
+      <div><b id="sMalas">0</b><span>malas</span></div>
+      <div><b id="sChants">0</b><span>chants</span></div>
+    </div>
+    <div class="brand">HERETOGETHER</div>
+  </footer>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
