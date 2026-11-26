@@ -35,15 +35,24 @@ main{width:100%;max-width:470px;min-height:100svh;display:flex;flex-direction:co
 #bar{width:68%;max-width:300px;height:3px;border-radius:999px;background:#2a1d10;overflow:hidden}
 #bar i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#c9631a,#ff8c2b,#f5c76a);
   transition:width .45s cubic-bezier(.4,0,.2,1)}
-#controls{display:flex;align-items:center;gap:14px;min-height:60px}
-.icon{width:58px;height:58px;border-radius:999px;border:1px solid #3d2d18;
-  background:#17100a;color:var(--gold);display:grid;place-items:center;padding:0}
-.icon:active{background:#241807}
-.icon svg{width:26px;height:26px}
+#controls{display:flex;align-items:center;gap:16px;min-height:76px}
+.icon{width:52px;height:52px;border-radius:999px;border:1px solid #3d2d18;
+  background:#17100a;color:var(--gold);display:grid;place-items:center;padding:0;
+  transition:transform .12s, background .12s}
+.icon:active{background:#241807;transform:scale(.92)}
+.icon svg{width:24px;height:24px}
+#play{width:72px;height:72px;border-color:transparent;color:#1a1206;
+  background:linear-gradient(160deg,#ff8c2b,#c9631a);box-shadow:0 6px 26px rgba(255,140,43,.28)}
+#play svg{width:30px;height:30px}
+#play:active{background:linear-gradient(160deg,#ff8c2b,#c9631a)}
 .icon .b,.icon.on .a{display:none}
 .icon.on .b{display:block}
-#speed{width:120px;accent-color:var(--saffron);background:none}
-#speed:disabled{opacity:.3}
+#speed{-webkit-appearance:none;appearance:none;width:132px;height:26px;background:none;margin:0}
+#speed::-webkit-slider-runnable-track{height:4px;border-radius:999px;background:#2f2112}
+#speed::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;margin-top:-9px;
+  border-radius:999px;background:var(--gold);box-shadow:0 0 14px rgba(245,199,106,.45)}
+#speed::-moz-range-track{height:4px;border-radius:999px;background:#2f2112}
+#speed::-moz-range-thumb{width:22px;height:22px;border:none;border-radius:999px;background:var(--gold)}
 #bead{width:60%;max-width:240px;aspect-ratio:1.9;border-radius:28px;border:none;
   background:linear-gradient(160deg,#ff8c2b,#c9631a);color:#1a1206;display:grid;place-items:center;
   box-shadow:0 10px 40px rgba(255,140,43,.3)}

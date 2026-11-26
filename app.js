@@ -106,13 +106,12 @@ function render(){
   $('sChants').textContent = st.chants;
   $('mode').classList.toggle('on', beads);
   $('play').hidden = beads;
-  $('speed').hidden = beads;
+  $('speed').hidden = beads || audioOn();
   $('bead').hidden = !beads;
   $('play').classList.toggle('on', playing);
   $('mute').hidden = sndLen <= 1;
   $('mute').classList.toggle('on', st.muted);
   $('speed').value = st.speed;
-  $('speed').disabled = audioOn();
   $('mantra').onclick = () => {
   st.mantra = (st.mantra + 1) % MANTRAS.length;
   playing = false; wake(false); save(); loadAudio(); render();
