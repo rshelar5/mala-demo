@@ -1,5 +1,5 @@
 const LS = 'mala.v1', GOAL = 108;
-const DEF = {count:0, malas:0, chants:0, mode:'guided', speed:4, muted:false, script:'dev', mantra:0};
+const DEF = {count:0, malas:0, chants:0, mode:'guided', speed:4, speedAuto:true, muted:false, script:'dev', mantra:0};
 let st = {...DEF, ...JSON.parse(localStorage.getItem(LS) || '{}')};
 const save = () => localStorage.setItem(LS, JSON.stringify(st));
 
@@ -28,12 +28,25 @@ let playing = false, raf = null, t0 = 0, lock = null;
 let sndLen = 0;
 const a = new Audio();
 a.preload = 'auto';
-a.addEventListener('loadedmetadata', () => { sndLen = a.duration || 0; render(); });
+a.addEventListener('loadedmetadata', () => {
+  sndLen = a.duration || 0;
+  if (st.speedAuto && sndLen > 1) st.speed = clamp(Math.round(sndLen * 2) / 2, 2, 8);
+  render();
+});
 a.addEventListener('error', () => { sndLen = 0; render(); });
 function loadAudio(){ sndLen = 0; a.pause(); a.src = cur().audio; a.load(); }
 
+const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 const audioOn = () => sndLen > 1 && !st.muted;
-const tripMs = () => (audioOn() ? sndLen * 1000 : st.speed * 1000);
+// the slider owns the pace; the clip is stretched to fit, within what still sounds like a voice
+// ponytail: plain playbackRate, no pitch correction — add one if the stretch ever gets ugly
+const tripMs = () => st.speed * 1000;
+function playClip(){
+  if (!audioOn()) return;
+  a.currentTime = 0;
+  a.playbackRate = clamp(sndLen / st.speed, 0.6, 1.8);
+  a.play().catch(() => {});
+}
 
 async function wake(on){
   try{
@@ -45,9 +58,11 @@ async function wake(on){
 }
 document.addEventListener('visibilitychange', () => { if (!document.hidden && playing) wake(true); });
 
+// one trip of the point. Auto mode counts when the point lands; a tap counts at once
+// and the trip is only the feedback, so fast tapping never loses a bead.
 function trip(){
-  if (raf) return;
-  if (audioOn()){ a.currentTime = 0; a.play().catch(()=>{}); }
+  if (raf) cancelAnimationFrame(raf);
+  playClip();
   t0 = performance.now();
   raf = requestAnimationFrame(step);
 }
@@ -57,9 +72,9 @@ function step(ts){
   dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y);
   if (k < 1){ raf = requestAnimationFrame(step); return; }
   raf = null;
-  chant();
-  if (playing) trip();
+  if (playing){ chant(); if (playing) trip(); }
 }
+function tapChant(){ chant(); if (st.count !== 0) trip(); }
 function chant(){
   const n = advance(st);
   st.count = n.count; st.malas = n.malas; st.chants = n.chants;
@@ -68,11 +83,11 @@ function chant(){
 }
 function bloom(){ sign.classList.remove('bloom'); void sign.getBBox(); sign.classList.add('bloom'); }
 
-sign.onclick = () => { if (!playing) trip(); };
+sign.onclick = () => { if (!playing) tapChant(); };
 $('play').onclick = () => { playing = !playing; wake(playing); if (playing) trip(); render(); };
 $('mode').onclick = () => { st.mode = st.mode === 'guided' ? 'beads' : 'guided'; playing = false; wake(false); save(); render(); };
 $('mute').onclick = () => { st.muted = !st.muted; if (st.muted) a.pause(); save(); render(); };
-$('speed').oninput = e => { st.speed = +e.target.value; save(); };
+$('speed').oninput = e => { st.speed = +e.target.value; st.speedAuto = false; save(); };
 $('bead').onclick = () => {
   st.chants += GOAL - st.count; st.count = 0; st.malas += 1;
   save(); bloom(); render();
@@ -106,7 +121,7 @@ function render(){
   $('sChants').textContent = st.chants;
   $('mode').classList.toggle('on', beads);
   $('play').hidden = beads;
-  $('speed').hidden = beads || audioOn();
+  $('speed').hidden = beads;
   $('bead').hidden = !beads;
   $('play').classList.toggle('on', playing);
   $('mute').hidden = sndLen <= 1;
