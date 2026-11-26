@@ -99,6 +99,9 @@ function render(){
   $('mantra').textContent = cur()[st.script];
   document.querySelectorAll('#dots i').forEach((d, i) => d.classList.toggle('on', i === st.mantra));
   $('count').textContent = st.count;
+  const ring = (cur()[st.script] + '  ♦  ').repeat(14);
+  for (const t of document.querySelectorAll('.ring textPath')) t.textContent = ring;
+  document.querySelector('#bar i').style.width = (st.count / GOAL * 100) + '%';
   $('sMalas').textContent = st.malas;
   $('sChants').textContent = st.chants;
   $('mode').classList.toggle('on', beads);

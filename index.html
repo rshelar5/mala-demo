@@ -32,14 +32,22 @@
       <linearGradient id="g" x1="0" y1="0" x2="1" y2="0">
         <stop offset="0" stop-color="#ff8c2b"/><stop offset=".5" stop-color="#ffd79a"/><stop offset="1" stop-color="#f5c76a"/>
       </linearGradient>
+      <path id="r1" d="M200,150 m-186,0 a186,186 0 1,1 372,0 a186,186 0 1,1 -372,0"/>
+      <path id="r2" d="M200,150 m-218,0 a218,218 0 1,1 436,0 a218,218 0 1,1 -436,0"/>
     </defs>
-    <path id="p" d="M200,150 C200,26 380,26 380,150 C380,274 200,274 200,150 C200,26 20,26 20,150 C20,274 200,274 200,150 Z"
-          fill="none" stroke="url(#g)" stroke-width="8" stroke-linecap="round"/>
-    <text id="count" class="big" x="110" y="152">0</text>
-    <text id="goal" class="small" x="290" y="152">108</text>
+    <g id="rings" aria-hidden="true">
+      <text class="ring ring1"><textPath href="#r1"></textPath></text>
+      <text class="ring ring2"><textPath href="#r2"></textPath></text>
+    </g>
+    <path id="p" d="M200,150 C128,42 24,48 24,150 C24,252 128,258 200,150 C272,42 376,48 376,150 C376,252 272,258 200,150 Z"
+          fill="none" stroke="url(#g)" stroke-width="7" stroke-linecap="round"/>
+    <text id="count" class="big" x="112" y="152">0</text>
+    <text id="goal" class="small" x="288" y="152">108</text>
     <circle id="dot" cx="200" cy="150" r="11" fill="#fff6e0" filter="url(#glow)"/>
   </svg>
   </div>
+
+  <div id="bar"><i></i></div>
 
   <div id="controls">
     <button id="mode" class="icon" aria-label="mode">
